@@ -7,7 +7,31 @@ export default function AreaStat() {
 
     return (
         <div className="area-stats">
-            <h3>Area Overview</h3>
+            <h3 className='area--title'>Area Overview</h3>
+            <div className='area--price'>
+                <h4> area range </h4>
+                <h4> Average Rent price in map area: $2000</h4>
+            </div>
+            <div className='area--commute'>
+                <div className='car-commmute-time'>
+                    {/* placeholder icon */}
+                    <p>8 min to 16 min</p>
+                </div>
+                <div className='transit-commmute-time'>
+                    {/* placeholder icon */}
+                    <p>8 min to 16 min</p>
+                </div>
+                <div className='walking-commmute-time'>
+                    {/* placeholder icon */}
+                    <p>8 min to 16 min</p>
+                </div>
+                <div className='biking-commmute-time'>
+                    {/* placeholder icon */}
+                    <p>8 min to 16 min</p>
+                </div>
+            </div>
+            <div className='area--crime'></div>
+            <div className='area--rent-estimate'></div>
         </div>
     )
 }

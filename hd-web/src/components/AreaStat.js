@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as d3 from "d3";
+import { areaRadial } from 'd3';
 
 export default function AreaStat(props) {
 
@@ -9,9 +10,10 @@ export default function AreaStat(props) {
     // Renders 3 times, first time before any data is loaded, second time when data is loaded, third time when the map is zoomed in or out.
     function updateStats() {
         if (props.data) {
-            let areaMin = d3.min(props.data, d => d.price);
-            let areaMax = d3.max(props.data, d => d.price);
-            let areaAverage = d3.mean(props.data, d => d.price);
+            // Using IQR to measure the spread by removing outliers
+            let areaMin = d3.quantile(props.data, 0.25, d => d.price); 
+            let areaMax = d3.quantile(props.data, 0.75, d => d.price); 
+            let areaAverage = d3.median(props.data, d => d.price);
             let carMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.carCommuteTime);
             let carMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.carCommuteTime);
             let transitMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.transitCommuteTime);
@@ -21,8 +23,8 @@ export default function AreaStat(props) {
             let bikingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.bikingCommuteTime);
             let bikingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.bikingCommuteTime);
             setStats({
-                areaMin: areaMin,
-                areaMax: areaMax,
+                areaMin: parseInt(areaMin),
+                areaMax: parseInt(areaMax),
                 areaAverage: parseInt(areaAverage),
                 carMinCommuteTime: carMinCommuteTime,
                 carMaxCommuteTime: carMaxCommuteTime,

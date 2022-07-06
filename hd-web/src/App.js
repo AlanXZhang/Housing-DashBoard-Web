@@ -32,7 +32,8 @@ export default function App() {
 
     return (
         <div className="App">
-            <AreaStat data={data}/>
+            {/* Only Render in the Area Stat once the data has been loaded NOTE: data only evaluates to true if it is not null*/}
+            {data && <AreaStat data={data}/>}
         </div>
     )
 }

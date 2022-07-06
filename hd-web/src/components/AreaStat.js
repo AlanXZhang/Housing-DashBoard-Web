@@ -7,11 +7,8 @@ export default function AreaStat(props) {
     // Maybe create a removeEventListener function that will remove the event listener when the component is unmounted.
 
     // Renders 3 times, first time before any data is loaded, second time when data is loaded, third time when the map is zoomed in or out.
-
     function updateStats() {
-        console.log(props.data)
         if (props.data) {
-            console.log("Updating stats");
             let areaMin = d3.min(props.data, d => d.price);
             let areaMax = d3.max(props.data, d => d.price);
             let areaAverage = d3.mean(props.data, d => d.price);
@@ -40,53 +37,43 @@ export default function AreaStat(props) {
     }
 
     // Filters the data based on the viewable area of the map and updates the stats in the area
-    const [stats, setStats] = useState({
-        areaMin: 0,
-        areaMax: 0,
-        areaAverage: 0,
-        carMinCommuteTime: 0,
-        carMaxCommuteTime: 0,
-        transitMinCommuteTime: 0,
-        transitMaxCommuteTime: 0,
-        walkingMinCommuteTime: 0,
-        walkingMaxCommuteTime: 0,
-        bikingMinCommuteTime: 0,
-        bikingMaxCommuteTime: 0,
-    });
+    const [stats, setStats] = useState(null);
 
     useEffect(() => {
         updateStats();
-    }, [props.data]);
+    }, []);
     console.log(props.data);
     console.log(stats);
 
-    return (
-        <div className="area-stats">
-            <h3 className='area--title'>Area Overview</h3>
-            <div className='area--price'>
-                <h4> {`$${stats.areaMin}/month - $${stats.areaMax}/month`} </h4>
-                <h4> {`Average Rent price in map area: $${stats.areaAverage}`}</h4>
+    if (stats) { //Only render the Area Overview if the stats have been loaded to prevent unncessary renders
+        return (
+            <div className="area-stats">
+                <h3 className='area--title'>Area Overview</h3>
+                <div className='area--price'>
+                    <h4> {`$${stats.areaMin}/month - $${stats.areaMax}/month`} </h4>
+                    <h4> {`Average Rent price in map area: $${stats.areaAverage}`}</h4>
+                </div>
+                <div className='area--commute'>
+                    <div className='car-commmute-time'>
+                        {/* placeholder icon */}
+                        <p>8 min to 16 min</p>
+                    </div>
+                    <div className='transit-commmute-time'>
+                        {/* placeholder icon */}
+                        <p>8 min to 16 min</p>
+                    </div>
+                    <div className='walking-commmute-time'>
+                        {/* placeholder icon */}
+                        <p>8 min to 16 min</p>
+                    </div>
+                    <div className='biking-commmute-time'>
+                        {/* placeholder icon */}
+                        <p>8 min to 16 min</p>
+                    </div>
+                </div>
+                <div className='area--crime'></div>
+                <div className='area--rent-estimate'></div>
             </div>
-            <div className='area--commute'>
-                <div className='car-commmute-time'>
-                    {/* placeholder icon */}
-                    <p>8 min to 16 min</p>
-                </div>
-                <div className='transit-commmute-time'>
-                    {/* placeholder icon */}
-                    <p>8 min to 16 min</p>
-                </div>
-                <div className='walking-commmute-time'>
-                    {/* placeholder icon */}
-                    <p>8 min to 16 min</p>
-                </div>
-                <div className='biking-commmute-time'>
-                    {/* placeholder icon */}
-                    <p>8 min to 16 min</p>
-                </div>
-            </div>
-            <div className='area--crime'></div>
-            <div className='area--rent-estimate'></div>
-        </div>
-    )
+        )
+    }
 }

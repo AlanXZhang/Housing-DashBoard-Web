@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import * as d3 from "d3";
-import { areaRadial } from 'd3';
 
 export default function AreaStat(props) {
 
@@ -9,43 +8,42 @@ export default function AreaStat(props) {
 
     // Renders 3 times, first time before any data is loaded, second time when data is loaded, third time when the map is zoomed in or out.
     function updateStats() {
-        if (props.data) {
-            // Using IQR to measure the spread by removing outliers
-            let areaMin = d3.quantile(props.data, 0.25, d => d.price); 
-            let areaMax = d3.quantile(props.data, 0.75, d => d.price); 
-            let areaAverage = d3.median(props.data, d => d.price);
-            let carMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.carCommuteTime);
-            let carMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.carCommuteTime);
-            let transitMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.transitCommuteTime);
-            let transitMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.transitCommuteTime);
-            let walkingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.walkingCommuteTime);
-            let walkingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.walkingCommuteTime);
-            let bikingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.bikingCommuteTime);
-            let bikingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.bikingCommuteTime);
-            setStats({
-                areaMin: parseInt(areaMin),
-                areaMax: parseInt(areaMax),
-                areaAverage: parseInt(areaAverage),
-                carMinCommuteTime: carMinCommuteTime,
-                carMaxCommuteTime: carMaxCommuteTime,
-                transitMinCommuteTime: transitMinCommuteTime,
-                transitMaxCommuteTime: transitMaxCommuteTime,
-                walkingMinCommuteTime: walkingMinCommuteTime,
-                walkingMaxCommuteTime: walkingMaxCommuteTime,
-                bikingMinCommuteTime: bikingMinCommuteTime,
-                bikingMaxCommuteTime: bikingMaxCommuteTime,
-            });
-        }
+        // Using IQR to measure the spread by removing outliers
+        let areaMin = d3.quantile(subsetData, 0.25, d => d.price);
+        let areaMax = d3.quantile(subsetData, 0.75, d => d.price);
+        let areaAverage = d3.median(subsetData, d => d.price);
+        let carMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.carCommuteTime);
+        let carMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.carCommuteTime);
+        let transitMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.transitCommuteTime);
+        let transitMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.transitCommuteTime);
+        let walkingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.walkingCommuteTime);
+        let walkingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.walkingCommuteTime);
+        let bikingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.bikingCommuteTime);
+        let bikingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.bikingCommuteTime);
+        setStats({
+            areaMin: parseInt(areaMin),
+            areaMax: parseInt(areaMax),
+            areaAverage: parseInt(areaAverage),
+            carMinCommuteTime: carMinCommuteTime,
+            carMaxCommuteTime: carMaxCommuteTime,
+            transitMinCommuteTime: transitMinCommuteTime,
+            transitMaxCommuteTime: transitMaxCommuteTime,
+            walkingMinCommuteTime: walkingMinCommuteTime,
+            walkingMaxCommuteTime: walkingMaxCommuteTime,
+            bikingMinCommuteTime: bikingMinCommuteTime,
+            bikingMaxCommuteTime: bikingMaxCommuteTime,
+        });
     }
 
     // Filters the data based on the viewable area of the map and updates the stats in the area
     const [stats, setStats] = useState(null);
+    const [subsetData, setSubsetData] = useState(props.data)
 
     useEffect(() => {
         updateStats();
     }, []);
-    console.log(props.data);
-    console.log(stats);
+
+    // Need an event listener that changes the subset data and stat when the user moves the map or zooms in or out
 
     if (stats) { //Only render the Area Overview if the stats have been loaded to prevent unncessary renders
         return (
@@ -58,7 +56,7 @@ export default function AreaStat(props) {
                 <div className='area--commute'>
                     <div className='car-commmute-time'>
                         {/* placeholder icon */}
-                        <p>8 min to 16 min</p>
+                        <p> min to 16 min</p>
                     </div>
                     <div className='transit-commmute-time'>
                         {/* placeholder icon */}

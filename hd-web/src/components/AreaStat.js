@@ -1,16 +1,71 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react';
+import * as d3 from "d3";
 
-export default function AreaStat() {
+export default function AreaStat(props) {
 
     // Create an event listener that will update the state when the zooms in or out of the map or drag the map.
     // Maybe create a removeEventListener function that will remove the event listener when the component is unmounted.
+
+    // Renders 3 times, first time before any data is loaded, second time when data is loaded, third time when the map is zoomed in or out.
+
+    function updateStats() {
+        console.log(props.data)
+        if (props.data) {
+            console.log("Updating stats");
+            let areaMin = d3.min(props.data, d => d.price);
+            let areaMax = d3.max(props.data, d => d.price);
+            let areaAverage = d3.mean(props.data, d => d.price);
+            let carMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.carCommuteTime);
+            let carMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.carCommuteTime);
+            let transitMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.transitCommuteTime);
+            let transitMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.transitCommuteTime);
+            let walkingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.walkingCommuteTime);
+            let walkingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.walkingCommuteTime);
+            let bikingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.bikingCommuteTime);
+            let bikingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.bikingCommuteTime);
+            setStats({
+                areaMin: areaMin,
+                areaMax: areaMax,
+                areaAverage: parseInt(areaAverage),
+                carMinCommuteTime: carMinCommuteTime,
+                carMaxCommuteTime: carMaxCommuteTime,
+                transitMinCommuteTime: transitMinCommuteTime,
+                transitMaxCommuteTime: transitMaxCommuteTime,
+                walkingMinCommuteTime: walkingMinCommuteTime,
+                walkingMaxCommuteTime: walkingMaxCommuteTime,
+                bikingMinCommuteTime: bikingMinCommuteTime,
+                bikingMaxCommuteTime: bikingMaxCommuteTime,
+            });
+        }
+    }
+
+    // Filters the data based on the viewable area of the map and updates the stats in the area
+    const [stats, setStats] = useState({
+        areaMin: 0,
+        areaMax: 0,
+        areaAverage: 0,
+        carMinCommuteTime: 0,
+        carMaxCommuteTime: 0,
+        transitMinCommuteTime: 0,
+        transitMaxCommuteTime: 0,
+        walkingMinCommuteTime: 0,
+        walkingMaxCommuteTime: 0,
+        bikingMinCommuteTime: 0,
+        bikingMaxCommuteTime: 0,
+    });
+
+    useEffect(() => {
+        updateStats();
+    }, [props.data]);
+    console.log(props.data);
+    console.log(stats);
 
     return (
         <div className="area-stats">
             <h3 className='area--title'>Area Overview</h3>
             <div className='area--price'>
-                <h4> area range </h4>
-                <h4> Average Rent price in map area: $2000</h4>
+                <h4> {`$${stats.areaMin}/month - $${stats.areaMax}/month`} </h4>
+                <h4> {`Average Rent price in map area: $${stats.areaAverage}`}</h4>
             </div>
             <div className='area--commute'>
                 <div className='car-commmute-time'>

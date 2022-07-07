@@ -11,27 +11,27 @@ export default function AreaStat(props) {
         // Using IQR to measure the spread by removing outliers
         let areaMin = d3.quantile(subsetData, 0.25, d => d.price);
         let areaMax = d3.quantile(subsetData, 0.75, d => d.price);
-        let areaAverage = d3.median(subsetData, d => d.price);
-        let carMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.carCommuteTime);
-        let carMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.carCommuteTime);
-        let transitMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.transitCommuteTime);
-        let transitMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.transitCommuteTime);
-        let walkingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.walkingCommuteTime);
-        let walkingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.walkingCommuteTime);
-        let bikingMinCommuteTime = 0 //Function when I get the feature engineered dataset: d3.min(data, d => d.bikingCommuteTime);
-        let bikingMaxCommuteTime = 0 //Function when I get the feature engineered dataset: d3.max(data, d => d.bikingCommuteTime);
+        let areaMedian = d3.median(subsetData, d => d.price);
+        let carMinCommuteTime = 1 // d3.quantile(subsetData, 0.25, d => d.carCommuteTime);
+        let carMaxCommuteTime = 2 // d3.quantile(subsetData, 0.75, d => d.carCommuteTime);
+        let transitMinCommuteTime = 3 // d3.quantile(subsetData, 0.25, d => d.transitCommuteTime);
+        let transitMaxCommuteTime = 4 // d3.quantile(subsetData, 0.75, d => d.transitCommuteTime);
+        let walkingMinCommuteTime = 5 // d3.quantile(subsetData, 0.25, d => d.walkingCommuteTime);
+        let walkingMaxCommuteTime = 16 // d3.quantile(subsetData, 0.75, d => d.walkingCommuteTime);
+        let bikingMinCommuteTime = 6 // d3.quantile(subsetData, 0.25, d => d.bikingCommuteTime);
+        let bikingMaxCommuteTime = 7 // d3.quantile(subsetData, 0.75, d => d.bikingCommuteTime);
         setStats({
             areaMin: parseInt(areaMin),
             areaMax: parseInt(areaMax),
-            areaAverage: parseInt(areaAverage),
-            carMinCommuteTime: carMinCommuteTime,
-            carMaxCommuteTime: carMaxCommuteTime,
-            transitMinCommuteTime: transitMinCommuteTime,
-            transitMaxCommuteTime: transitMaxCommuteTime,
-            walkingMinCommuteTime: walkingMinCommuteTime,
-            walkingMaxCommuteTime: walkingMaxCommuteTime,
-            bikingMinCommuteTime: bikingMinCommuteTime,
-            bikingMaxCommuteTime: bikingMaxCommuteTime,
+            areaAverage: parseInt(areaMedian),
+            carMinCommuteTime: parseInt(carMinCommuteTime),
+            carMaxCommuteTime: parseInt(carMaxCommuteTime),
+            transitMinCommuteTime: parseInt(transitMinCommuteTime),
+            transitMaxCommuteTime: parseInt(transitMaxCommuteTime),
+            walkingMinCommuteTime: parseInt(walkingMinCommuteTime),
+            walkingMaxCommuteTime: parseInt(walkingMaxCommuteTime),
+            bikingMinCommuteTime: parseInt(bikingMinCommuteTime),
+            bikingMaxCommuteTime: parseInt(bikingMaxCommuteTime),
         });
     }
 
@@ -39,9 +39,12 @@ export default function AreaStat(props) {
     const [stats, setStats] = useState(null);
     const [subsetData, setSubsetData] = useState(props.data)
 
+    // Update stats on launch and whenever the subsetData is updated
     useEffect(() => {
         updateStats();
-    }, []);
+    }, [subsetData]);
+
+    console.log(subsetData)
 
     // Need an event listener that changes the subset data and stat when the user moves the map or zooms in or out
 
@@ -55,24 +58,27 @@ export default function AreaStat(props) {
                 </div>
                 <div className='area--commute'>
                     <div className='car-commmute-time'>
-                        {/* placeholder icon */}
-                        <p> min to 16 min</p>
+                        <span className="iconify" data-icon="bx:car"></span>
+                        <p>{stats.carMinCommuteTime} min to {stats.carMaxCommuteTime} min</p>
                     </div>
                     <div className='transit-commmute-time'>
-                        {/* placeholder icon */}
-                        <p>8 min to 16 min</p>
+                        <span className="iconify" data-icon="bx:train"></span>
+                        <p>{stats.transitMinCommuteTime} min to {stats.transitMaxCommuteTime} min</p>
                     </div>
                     <div className='walking-commmute-time'>
-                        {/* placeholder icon */}
-                        <p>8 min to 16 min</p>
+                    <span className="iconify" data-icon="bx:walk"></span>
+                        <p>{stats.walkingMinCommuteTime} min to {stats.walkingMaxCommuteTime} min</p>
                     </div>
                     <div className='biking-commmute-time'>
-                        {/* placeholder icon */}
-                        <p>8 min to 16 min</p>
+                        <span className="iconify" data-icon="ic:baseline-directions-bike"></span>
+                        <p>{stats.bikingMinCommuteTime} min to {stats.bikingMaxCommuteTime} min</p>
                     </div>
                 </div>
-                <div className='area--crime'></div>
-                <div className='area--rent-estimate'></div>
+                <div className='area--crime'>
+                    {/* Placeholder Rating Icon e.g. A, B, C */}
+                </div>
+                {/* May not implement rent estimate on MVP */}
+                {/* <div className='area--rent-estimate'></div>  */}
             </div>
         )
     }

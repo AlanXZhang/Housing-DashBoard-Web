@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as d3 from "d3";
-
+// May want to port each component of the Area stat into its own cards for scalability
 export default function AreaStat(props) {
 
     // Create an event listener that will update the state when the zooms in or out of the map or drag the map.
@@ -12,14 +12,14 @@ export default function AreaStat(props) {
         let areaMin = d3.quantile(subsetData, 0.25, d => d.price);
         let areaMax = d3.quantile(subsetData, 0.75, d => d.price);
         let areaMedian = d3.median(subsetData, d => d.price);
-        let carMinCommuteTime = 1 // d3.quantile(subsetData, 0.25, d => d.carCommuteTime);
-        let carMaxCommuteTime = 2 // d3.quantile(subsetData, 0.75, d => d.carCommuteTime);
-        let transitMinCommuteTime = 3 // d3.quantile(subsetData, 0.25, d => d.transitCommuteTime);
-        let transitMaxCommuteTime = 4 // d3.quantile(subsetData, 0.75, d => d.transitCommuteTime);
-        let walkingMinCommuteTime = 5 // d3.quantile(subsetData, 0.25, d => d.walkingCommuteTime);
-        let walkingMaxCommuteTime = 16 // d3.quantile(subsetData, 0.75, d => d.walkingCommuteTime);
-        let bikingMinCommuteTime = 6 // d3.quantile(subsetData, 0.25, d => d.bikingCommuteTime);
-        let bikingMaxCommuteTime = 7 // d3.quantile(subsetData, 0.75, d => d.bikingCommuteTime);
+        let carMinCommuteTime = 8 // d3.quantile(subsetData, 0.25, d => d.carCommuteTime);
+        let carMaxCommuteTime = 16 // d3.quantile(subsetData, 0.75, d => d.carCommuteTime);
+        let transitMinCommuteTime = 24 // d3.quantile(subsetData, 0.25, d => d.transitCommuteTime);
+        let transitMaxCommuteTime = 48 // d3.quantile(subsetData, 0.75, d => d.transitCommuteTime);
+        let walkingMinCommuteTime = 62 // d3.quantile(subsetData, 0.25, d => d.walkingCommuteTime);
+        let walkingMaxCommuteTime = 168 // d3.quantile(subsetData, 0.75, d => d.walkingCommuteTime);
+        let bikingMinCommuteTime = 22 // d3.quantile(subsetData, 0.25, d => d.bikingCommuteTime);
+        let bikingMaxCommuteTime = 56 // d3.quantile(subsetData, 0.75, d => d.bikingCommuteTime);
         setStats({
             areaMin: parseInt(areaMin),
             areaMax: parseInt(areaMax),
@@ -35,6 +35,13 @@ export default function AreaStat(props) {
         });
     }
 
+    function convertMinToTime(min) {
+        let hour = Math.floor(min / 60);
+        let minute = min % 60;
+        let res = hour ? `${hour} hr ${minute} min` : `${minute} min`;
+        return res;
+    }
+
     // Filters the data based on the viewable area of the map and updates the stats in the area
     const [stats, setStats] = useState(null);
     const [subsetData, setSubsetData] = useState(props.data)
@@ -44,39 +51,44 @@ export default function AreaStat(props) {
         updateStats();
     }, [subsetData]);
 
-    console.log(subsetData)
-
     // Need an event listener that changes the subset data and stat when the user moves the map or zooms in or out
 
     if (stats) { //Only render the Area Overview if the stats have been loaded to prevent unncessary renders
         return (
             <div className="area-stats">
-                <h3 className='area--title'>Area Overview</h3>
+                <h2 className='area--overview'>Area Overview</h2>
+                <h3 className='area--title'>Price</h3>
                 <div className='area--price'>
-                    <h4> {`$${stats.areaMin}/month - $${stats.areaMax}/month`} </h4>
-                    <h4> {`Average Rent price in map area: $${stats.areaAverage}`}</h4>
+                    <h4 className='area--price-summary'> <span className="area--low bold">${stats.areaMin}</span>/month - <span className="area--high bold">${stats.areaMax}</span>/month</h4>
+                    <h4 className='area--price-summary-text'> Average rent price in map area: <span className="bold">${stats.areaAverage}</span></h4>
                 </div>
+
+                <h3 className='area--title'>Commute Time</h3>
                 <div className='area--commute'>
-                    <div className='car-commmute-time'>
+                    <div className='car-commmute-time flex'>
                         <span className="iconify" data-icon="bx:car"></span>
-                        <p>{stats.carMinCommuteTime} min to {stats.carMaxCommuteTime} min</p>
+                        <p>{convertMinToTime(stats.carMinCommuteTime)} to {convertMinToTime(stats.carMaxCommuteTime)}</p>
                     </div>
-                    <div className='transit-commmute-time'>
+                    <div className='transit-commmute-time flex'>
                         <span className="iconify" data-icon="bx:train"></span>
-                        <p>{stats.transitMinCommuteTime} min to {stats.transitMaxCommuteTime} min</p>
+                        <p>{convertMinToTime(stats.transitMinCommuteTime)} to {convertMinToTime(stats.transitMaxCommuteTime)}</p>
                     </div>
-                    <div className='walking-commmute-time'>
+                    <div className='walking-commmute-time flex'>
                     <span className="iconify" data-icon="bx:walk"></span>
-                        <p>{stats.walkingMinCommuteTime} min to {stats.walkingMaxCommuteTime} min</p>
+                        <p>{convertMinToTime(stats.walkingMinCommuteTime)} to {convertMinToTime(stats.walkingMaxCommuteTime)}</p>
                     </div>
-                    <div className='biking-commmute-time'>
+                    <div className='biking-commmute-time flex'>
                         <span className="iconify" data-icon="ic:baseline-directions-bike"></span>
-                        <p>{stats.bikingMinCommuteTime} min to {stats.bikingMaxCommuteTime} min</p>
+                        <p>{convertMinToTime(stats.bikingMinCommuteTime)} to {convertMinToTime(stats.bikingMaxCommuteTime)}</p>
                     </div>
                 </div>
-                <div className='area--crime'>
+                <h3 className='area--title'>Crime rate</h3>
+                <div className='area--crime flex'>
+                    <p className="area--rating">A</p>
+                    <p className="area--rating-description">(Safer than <span className="bold">70%</span> of US cities)</p>
                     {/* Placeholder Rating Icon e.g. A, B, C */}
                 </div>
+                <h3 className="area--title">Future rent estimate</h3>
                 {/* May not implement rent estimate on MVP */}
                 {/* <div className='area--rent-estimate'></div>  */}
             </div>

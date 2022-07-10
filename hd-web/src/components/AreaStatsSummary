@@ -1,0 +1,47 @@
+import React, {useEffect, useState} from 'react';
+import * as d3 from 'd3';
+
+export default function AreaStatsSummary(props) {
+
+    function updateStats() {
+        // Using IQR to measure the spread by removing outliers
+        let areaMin = d3.quantile(subsetData, 0.25, d => d.price);
+        let areaMax = d3.quantile(subsetData, 0.75, d => d.price);
+        let areaMedian = d3.median(subsetData, d => d.price);
+        let carMinCommuteTime = 8 // d3.quantile(subsetData, 0.25, d => d.carCommuteTime);
+        let carMaxCommuteTime = 16 // d3.quantile(subsetData, 0.75, d => d.carCommuteTime);
+        let transitMinCommuteTime = 24 // d3.quantile(subsetData, 0.25, d => d.transitCommuteTime);
+        let transitMaxCommuteTime = 48 // d3.quantile(subsetData, 0.75, d => d.transitCommuteTime);
+        let walkingMinCommuteTime = 62 // d3.quantile(subsetData, 0.25, d => d.walkingCommuteTime);
+        let walkingMaxCommuteTime = 168 // d3.quantile(subsetData, 0.75, d => d.walkingCommuteTime);
+        let bikingMinCommuteTime = 22 // d3.quantile(subsetData, 0.25, d => d.bikingCommuteTime);
+        let bikingMaxCommuteTime = 56 // d3.quantile(subsetData, 0.75, d => d.bikingCommuteTime);
+        setStats({
+            areaMin: parseInt(areaMin),
+            areaMax: parseInt(areaMax),
+            areaAverage: parseInt(areaMedian),
+            carMinCommuteTime: parseInt(carMinCommuteTime),
+            carMaxCommuteTime: parseInt(carMaxCommuteTime),
+            transitMinCommuteTime: parseInt(transitMinCommuteTime),
+            transitMaxCommuteTime: parseInt(transitMaxCommuteTime),
+            walkingMinCommuteTime: parseInt(walkingMinCommuteTime),
+            walkingMaxCommuteTime: parseInt(walkingMaxCommuteTime),
+            bikingMinCommuteTime: parseInt(bikingMinCommuteTime),
+            bikingMaxCommuteTime: parseInt(bikingMaxCommuteTime),
+        });
+    }
+
+    const [stats, setStats] = useState(null);
+    if (props) {
+        setStats(props.data)
+    }
+
+    useEffect(() => {
+        const {data} = props.data;
+
+    }, []);
+    
+    return (
+        <div id="area-stats-summary" />
+    );
+}

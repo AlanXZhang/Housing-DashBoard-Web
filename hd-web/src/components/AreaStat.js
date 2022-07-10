@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as d3 from "d3";
+import "./AreaStat.css";
 // May want to port each component of the Area stat into its own cards for scalability
 export default function AreaStat(props) {
 
@@ -9,17 +10,17 @@ export default function AreaStat(props) {
     // Renders 3 times, first time before any data is loaded, second time when data is loaded, third time when the map is zoomed in or out.
     function updateStats() {
         // Using IQR to measure the spread by removing outliers
-        let areaMin = d3.quantile(subsetData, 0.25, d => d.price);
-        let areaMax = d3.quantile(subsetData, 0.75, d => d.price);
-        let areaMedian = d3.median(subsetData, d => d.price);
-        let carMinCommuteTime = 8 // d3.quantile(subsetData, 0.25, d => d.carCommuteTime);
-        let carMaxCommuteTime = 16 // d3.quantile(subsetData, 0.75, d => d.carCommuteTime);
-        let transitMinCommuteTime = 24 // d3.quantile(subsetData, 0.25, d => d.transitCommuteTime);
-        let transitMaxCommuteTime = 48 // d3.quantile(subsetData, 0.75, d => d.transitCommuteTime);
-        let walkingMinCommuteTime = 62 // d3.quantile(subsetData, 0.25, d => d.walkingCommuteTime);
-        let walkingMaxCommuteTime = 168 // d3.quantile(subsetData, 0.75, d => d.walkingCommuteTime);
-        let bikingMinCommuteTime = 22 // d3.quantile(subsetData, 0.25, d => d.bikingCommuteTime);
-        let bikingMaxCommuteTime = 56 // d3.quantile(subsetData, 0.75, d => d.bikingCommuteTime);
+        let areaMin = d3.quantile(props.data, 0.25, d => d.price);
+        let areaMax = d3.quantile(props.data, 0.75, d => d.price);
+        let areaMedian = d3.median(props.data, d => d.price);
+        let carMinCommuteTime = 8 // d3.quantile(props.data, 0.25, d => d.carCommuteTime);
+        let carMaxCommuteTime = 16 // d3.quantile(props.data, 0.75, d => d.carCommuteTime);
+        let transitMinCommuteTime = 24 // d3.quantile(props.data, 0.25, d => d.transitCommuteTime);
+        let transitMaxCommuteTime = 48 // d3.quantile(props.data, 0.75, d => d.transitCommuteTime);
+        let walkingMinCommuteTime = 62 // d3.quantile(props.data, 0.25, d => d.walkingCommuteTime);
+        let walkingMaxCommuteTime = 168 // d3.quantile(props.data, 0.75, d => d.walkingCommuteTime);
+        let bikingMinCommuteTime = 22 // d3.quantile(props.data, 0.25, d => d.bikingCommuteTime);
+        let bikingMaxCommuteTime = 56 // d3.quantile(props.data, 0.75, d => d.bikingCommuteTime);
         setStats({
             areaMin: parseInt(areaMin),
             areaMax: parseInt(areaMax),
@@ -44,12 +45,11 @@ export default function AreaStat(props) {
 
     // Filters the data based on the viewable area of the map and updates the stats in the area
     const [stats, setStats] = useState(null);
-    const [subsetData, setSubsetData] = useState(props.data)
 
     // Update stats on launch and whenever the subsetData is updated
     useEffect(() => {
         updateStats();
-    }, [subsetData]);
+    }, [props.data]);
 
     // Need an event listener that changes the subset data and stat when the user moves the map or zooms in or out
 

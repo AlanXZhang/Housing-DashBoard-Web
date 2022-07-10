@@ -21,19 +21,26 @@ export default function App() {
 
     // Stores the raw data from the csv file obtained through an API/Fetch call
     const [data, setData] = useState(null);
+    const [subsetData, setSubsetData] = useState(null)
 
     // Loading data from the csv file
     useEffect(() => {
         d3.csv(listingData, rowConverter)
             .then((listingData) => {
                 setData(listingData);
+                setSubsetData(listingData);
             })
     }, []);
 
+    // Update the subset data when the map is zoomed in or out
+    useEffect(() => {
+
+    }, []);
+    
     return (
         <div className="App">
             {/* Only Render in the Area Stat once the data has been loaded NOTE: data only evaluates to true if it is not null*/}
-            {data && <AreaStat data={data}/>}
+            {subsetData && <AreaStat data={subsetData}/>}
         </div>
     )
 }

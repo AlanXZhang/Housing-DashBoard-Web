@@ -1,0 +1,72 @@
+/* Styling the Area Overview to stick to the right side of the screen */
+.area-stats {
+    position: fixed;
+    max-width: 25%;
+    min-width: 25em;
+    max-height: 80%;
+    min-height: 80%;
+    z-index: 1;
+    right: 0;
+    overflow-x: hidden;
+    padding: 3%;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.area--overview {
+    font-size: 1.75em;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.area--title {
+    margin-bottom: 0.8rem;
+}
+
+.area--price {
+    margin-bottom: 2rem;
+}
+
+.area--price-summary {
+    font-size: 1em;
+    font-weight: normal;
+    margin-bottom: 0.5rem;
+}
+
+.area--low {
+    color: #0BA78B;
+}
+
+.area--high {
+    color: #FB0D0D;
+}
+
+.area--price-summary-text {
+    font-size: 1em;
+    font-weight: normal;
+    color: #777777;
+}
+
+.area--commute {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-row-gap: 1rem;
+    grid-column-gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.area--crime {
+    margin-bottom: 1.5rem;
+    align-items: flex-end;
+}
+
+.area--rating {
+    color: #0F9E0C;
+    font-weight: bold;
+    font-size: 1.75em;
+}
+
+.area--rating-description {
+    color: #777777;
+}

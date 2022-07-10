@@ -57,6 +57,7 @@ export default function AreaStat(props) {
         return (
             <div className="area-stats">
                 <h2 className='area--overview'>Area Overview</h2>
+                <h3 className="area--overview-desc">The overview will be updated when map moves</h3>
                 <h3 className='area--title'>Price</h3>
                 <div className='area--price'>
                     <h4 className='area--price-summary'> <span className="area--low bold">${stats.areaMin}</span>/month - <span className="area--high bold">${stats.areaMax}</span>/month</h4>

@@ -14,6 +14,10 @@
     gap: 0.4rem;
 }
 
+.area--overview-desc {
+    font-size: 0.8em;
+}
+
 /* Styling the Area Overview to stick to the right side of the screen */
 .area-stats {
     position: fixed;

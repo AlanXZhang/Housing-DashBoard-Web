@@ -36,6 +36,13 @@ export default function AreaStat(props) {
         });
     }
 
+    const [subsetData, setSubsetData] = useState(null)
+    
+    // Update the subset data when the map is zoomed in or out
+    useEffect(() => {
+
+    }, []);
+
     function convertMinToTime(min) {
         let hour = Math.floor(min / 60);
         let minute = min % 60;
@@ -75,7 +82,7 @@ export default function AreaStat(props) {
                         <p>{convertMinToTime(stats.transitMinCommuteTime)} to {convertMinToTime(stats.transitMaxCommuteTime)}</p>
                     </div>
                     <div className='walking-commmute-time flex'>
-                    <span className="iconify" data-icon="bx:walk"></span>
+                        <span className="iconify" data-icon="bx:walk"></span>
                         <p>{convertMinToTime(stats.walkingMinCommuteTime)} to {convertMinToTime(stats.walkingMaxCommuteTime)}</p>
                     </div>
                     <div className='biking-commmute-time flex'>

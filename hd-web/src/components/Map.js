@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "./Map.css";
+import GoogleMapReact from 'google-map-react';
 
-export default function Map() {
+export default function Map(props) {
+    const [mapCenter, setMapCenter] = useState({ lat: 32.86867512568862, lng: -117.21368983643102 });
+    const [mapZoom, setMapZoom] = useState(14);
+    const [heatmapData, setHeatmapData] = React.useState({});
+    useEffect(() => {
+        const positionArr = props.data.map(d => ({ lat: d.lat, lng: d.lng }));
+        const tempHeatmapData = {
+            positions: positionArr,
+            options: {
+                radius: 15,
+                opacity: 0.6,
+            }
+        };
+        setHeatmapData(tempHeatmapData);
+    }, [props.data]);
+    
+    console.log(heatmapData)
+
     return (
-        <div className="Map">
-            <iframe
-                className="Gmap"
-                referrerPolicy="no-referrer-when-downgrade"
-                loading="lazy"
-                title="Google Maps"
-                src="https://www.google.com/maps/embed/v1/view?key=AIzaSyCnasDuC3M7MHKCLlxqXU3vyJnzKAnwBTw&center=32.88122548712897,-117.23743805383994&zoom=13">
-            </iframe>
+        <div className="Map" style={{ height: '100vh', width: '100%' }}>
+            <GoogleMapReact
+                bootstrapURLKeys={{ 
+                    key: "AIzaSyCnasDuC3M7MHKCLlxqXU3vyJnzKAnwBTw",
+                    libraries: ['visualization'] 
+                }}
+                defaultCenter={mapCenter}
+                defaultZoom={mapZoom}
+                heatmap={heatmapData}
+            >
+            </GoogleMapReact>
         </div>
     )
 }

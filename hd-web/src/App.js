@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import "./App.css";
 import AreaStat from "./components/AreaStat";
-import listingData from './assets/data/proc_zillow.csv';
+import listingData from './assets/data/proc_zillow.csv'; // This needs to be replaced by a HTTP request
 import Map from "./components/Map";
 import * as d3 from "d3";
 
@@ -15,34 +15,28 @@ export default function App() {
             num_baths: +d.num_baths,
             num_beds: +d.num_beds,
             lat: +d.lat,
-            lon: +d.lon,
+            lng: +d.lon,
             price: +d.price,
         };
     };
 
     // Stores the raw data from the csv file obtained through an API/Fetch call
-    const [data, setData] = useState(null);
-    const [subsetData, setSubsetData] = useState(null)
+    const [mapData, setMapData] = useState(null);
 
     // Loading data from the csv file
     useEffect(() => {
         d3.csv(listingData, rowConverter)
             .then((listingData) => {
-                setData(listingData);
-                setSubsetData(listingData);
+                setMapData(listingData);
             })
     }, []);
 
-    // Update the subset data when the map is zoomed in or out
-    useEffect(() => {
-
-    }, []);
-    
+    console.log(mapData)
     return (
         <div className="App">
             {/* Only Render in the Area Stat once the data has been loaded NOTE: data only evaluates to true if it is not null*/}
-            {subsetData && <AreaStat data={subsetData}/>}
-            <Map />
+            {mapData && <AreaStat data={mapData} />}
+            {mapData && <Map data={mapData} />}
         </div>
     )
 }

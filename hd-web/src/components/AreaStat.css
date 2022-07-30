@@ -2,7 +2,7 @@
 .area-stats {
     position: fixed;
     max-width: 25%;
-    min-width: 25em;
+    min-width: 18em;
     max-height: 80%;
     min-height: 80%;
     z-index: 1;

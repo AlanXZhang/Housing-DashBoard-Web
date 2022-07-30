@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import "./App.css";
 import AreaStat from "./components/AreaStat";
 import listingData from './assets/data/proc_zillow.csv';
+import Map from "./components/Map";
 import * as d3 from "d3";
 
 export default function App() {
@@ -41,6 +42,7 @@ export default function App() {
         <div className="App">
             {/* Only Render in the Area Stat once the data has been loaded NOTE: data only evaluates to true if it is not null*/}
             {subsetData && <AreaStat data={subsetData}/>}
+            <Map />
         </div>
     )
 }

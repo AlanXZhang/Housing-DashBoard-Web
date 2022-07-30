@@ -7,12 +7,18 @@ export default function Map(props) {
     const [mapZoom, setMapZoom] = useState(14);
     const [heatmapData, setHeatmapData] = React.useState({});
     useEffect(() => {
-        const positionArr = props.data.map(d => ({ lat: d.lat, lng: d.lng }));
+        const positionArr = props.data.map(d => ({ 
+            lat: d.lat,
+            lng: d.lng,
+            weight: d.price }));
         const tempHeatmapData = {
             positions: positionArr,
             options: {
                 radius: 15,
-                opacity: 0.6,
+                opacity: 0.75,
+                dissipating: true,
+                // gradient: ,
+                // maxIntensity: , 
             }
         };
         setHeatmapData(tempHeatmapData);
@@ -21,7 +27,7 @@ export default function Map(props) {
     console.log(heatmapData)
 
     return (
-        <div className="Map" style={{ height: '100vh', width: '100%' }}>
+        <div className="Map">
             <GoogleMapReact
                 bootstrapURLKeys={{ 
                     key: "AIzaSyCnasDuC3M7MHKCLlxqXU3vyJnzKAnwBTw",

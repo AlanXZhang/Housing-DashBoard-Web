@@ -7,5 +7,26 @@
     padding: 3%;
     top: 50%;
     transform: translateY(-52.5%);
-    background-color: lightcoral;
+    background-color: #fff;
+    animation: slidein .25s normal forwards ease;
+}
+
+@keyframes slidein {
+    from {
+        transform: translateX(100%) translateY(-52.5%);
+    }
+
+    to {
+        transform: translateX(0%) translateY(-52.5%);
+    }
+}
+
+@keyframes slideout {
+    from {
+        transform: translateX(0%) translateY(-52.5%);
+    }
+
+    to {
+        transform: translateX(100%) translateY(-52.5%);
+    }
 }

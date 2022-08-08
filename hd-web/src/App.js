@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import "./App.css";
 import AreaStat from "./components/AreaStat";
 import listingData from './assets/data/final_df.csv'; // This needs to be replaced by a HTTP request
@@ -28,17 +28,35 @@ export default function App() {
         };
     };
 
+    const areaStatRef = useRef(null);
+    const listingsRef = useRef(null);
+
     const switchTab = () => {
-        setCurrTab(prevState => {
-            console.log(currTab)
-            return prevState === "stats" ? "listings" : "stats"
-        })
+        if (currTab === "stats") {
+
+            // setCurrTab("listings");
+
+            areaStatRef.current.style.animation = "slideout .25s normal forwards ease";
+            console.log("uwu stats animation going away");
+            setTimeout(() => {
+                console.log("uwu switching to listings");
+                setCurrTab("listings");
+            }, 250);
+        } else {
+
+            // setCurrTab("stats");
+
+            listingsRef.current.style.animation = "slideout .25s normal forwards ease";
+            console.log("uwu listings animation going away");
+            setTimeout(() => {
+                console.log("uwu switching to stats");
+                setCurrTab("stats");
+            }, 250);
+        }
     }
 
     // Stores the raw data from the csv file obtained through an API/Fetch call
     const [mapData, setMapData] = useState(null);
-    // const [showStats, setShowStats] = useState(true);
-    // const [showListings, setShowListings] = useState(false);
     const [currTab, setCurrTab] = useState("stats");
 
     // Loading data from the csv file
@@ -55,8 +73,8 @@ export default function App() {
             <div className="App">
                 <Map data={mapData} />
                 {currTab === "stats" ?
-                    <AreaStat data={mapData} /> :
-                    <Listings data={mapData} />
+                    <AreaStat data={mapData} innerRef={areaStatRef} /> :
+                    <Listings data={mapData} innerRef={listingsRef} />
                 }
                 <SwapButton handleClick={switchTab} state={currTab} />
             </div>

@@ -62,7 +62,7 @@ export default function AreaStat(props) {
 
     if (stats) { //Only render the Area Overview if the stats have been loaded to prevent unncessary renders
         return (
-            <div className="area-stats">
+            <div className="area-stats" ref={props.innerRef}>
                 <h2 className='area--overview'>Area Overview</h2>
                 <h3 className="area--overview-desc">The overview will be updated when map moves</h3>
                 <h3 className='area--title'>Price</h3>

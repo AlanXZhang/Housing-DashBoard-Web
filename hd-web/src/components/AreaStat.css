@@ -9,6 +9,8 @@
     top: 50%;
     transform: translateY(-52.5%);
     background-color: #fff;
+
+    animation: slidein .25s normal forwards ease;
 }
 
 .area--overview {
@@ -66,4 +68,24 @@
 
 .area--rating-description {
     color: #777777;
+}
+
+@keyframes slidein {
+    from {
+        transform: translateX(100%) translateY(-52.5%);
+    }
+
+    to {
+        transform: translateX(0%) translateY(-52.5%);
+    }
+}
+
+@keyframes slideout {
+    from {
+        transform: translateX(0%) translateY(-52.5%);
+    }
+
+    to {
+        transform: translateX(100%) translateY(-52.5%);
+    }
 }

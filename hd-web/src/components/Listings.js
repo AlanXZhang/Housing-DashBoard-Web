@@ -4,7 +4,7 @@ import ListingCard from "./ListingCard";
 
 export default function Listings(props) {
     return (
-        <div className='listing--cards'>
+        <div className='listing--cards' ref={props.innerRef}>
             <h2>Housing List</h2>
             <p>The list will be updated when map moves</p>
             {console.log(`data passed down`)}

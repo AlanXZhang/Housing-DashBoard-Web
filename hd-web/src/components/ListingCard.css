@@ -1,9 +1,12 @@
 .listing--card {
     /* filter: drop-shadow(0px 12px 20px #000000); */
     border-style: outset;
-    border-width: 1px 1px 4px 1px;
+    border-width: 0px 0px 4px 0px;
     border-color: green;
     margin: 1rem 0rem;
+    box-shadow: 0px 0px 15px 3px #dddddd;
+    border-radius: 5px;
+    padding: .6rem;
 }
 
 .subscript {

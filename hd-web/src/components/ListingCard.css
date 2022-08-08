@@ -1,0 +1,25 @@
+.listing--card {
+    /* filter: drop-shadow(0px 12px 20px #000000); */
+    border-style: outset;
+    border-width: 1px 1px 4px 1px;
+    border-color: green;
+    margin: 1rem 0rem;
+}
+
+.subscript {
+    font-size: .5em;
+    color: #999;
+}
+
+.listing--card--price {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.listing--card--line1 {
+    display: flex;
+    flex-direction: row;
+    gap: .75em;
+    align-items: baseline;
+}

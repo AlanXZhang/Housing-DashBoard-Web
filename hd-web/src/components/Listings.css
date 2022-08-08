@@ -1,0 +1,11 @@
+.listing--cards {
+    position: fixed;
+    width: 19em;
+    height: 72.5%;
+    right: 0;
+    overflow-x: hidden;
+    padding: 3%;
+    top: 50%;
+    transform: translateY(-52.5%);
+    background-color: lightcoral;
+}

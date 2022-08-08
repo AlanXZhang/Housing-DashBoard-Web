@@ -16,13 +16,15 @@ export default function Map(props) {
             .domain([1e-6, d3.max(props.data, d=>d.price)])
             .range([1, 100]);
 
-        const positionArr = props.data.map(d => ({
+        const positionArr = props.data
+            .filter(d => d.lat && d.lng) // Filter out listings that do not have lat and lng values
+            .map(d => ({
             lat: d.lat,
             lng: d.lng,
             weight: d.price <= 0 ? Math.sqrt(median_price) : Math.sqrt(d.price),
             // weight: logScale(d.price+1),
             price: d.price,
-        })
+            })
         );
         const tempHeatmapData = {
             positions: positionArr,
@@ -37,7 +39,7 @@ export default function Map(props) {
         setHeatmapData(tempHeatmapData);
     }, [props.data]);
 
-    console.log(heatmapData)
+    // console.log(heatmapData)
 
     // Change the input data when we toggle the heatmap
 

@@ -54,6 +54,7 @@ export default function Map(props) {
                 defaultCenter={mapCenter}
                 defaultZoom={mapZoom}
                 heatmap={heatmapData}
+                fullscreenControl={false}
             >
             </GoogleMapReact>
         </div>

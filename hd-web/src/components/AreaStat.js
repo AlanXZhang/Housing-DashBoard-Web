@@ -10,8 +10,8 @@ export default function AreaStat(props) {
     // Renders 3 times, first time before any data is loaded, second time when data is loaded, third time when the map is zoomed in or out.
     function updateStats() {
         // Using IQR to measure the spread by removing outliers
-        let areaMin = d3.quantile(props.data, 0.25, d => d.price);
-        let areaMax = d3.quantile(props.data, 0.75, d => d.price);
+        let areaMin = d3.quantile(props.data, 0.10, d => d.price);
+        let areaMax = d3.quantile(props.data, 0.90, d => d.price);
         let areaMedian = d3.median(props.data, d => d.price);
         let carMinCommuteTime = 8 // d3.quantile(props.data, 0.25, d => d.carCommuteTime);
         let carMaxCommuteTime = 16 // d3.quantile(props.data, 0.75, d => d.carCommuteTime);
@@ -68,7 +68,7 @@ export default function AreaStat(props) {
                 <h3 className='area--title'>Price</h3>
                 <div className='area--price'>
                     <h4 className='area--price-summary'> <span className="area--low bold">${stats.areaMin}</span>/month - <span className="area--high bold">${stats.areaMax}</span>/month</h4>
-                    <h4 className='area--price-summary-text'> Average rent price in map area: <span className="bold">${stats.areaAverage}</span></h4>
+                    <h4 className='area--price-summary-text'> Median rent price in map area: <span className="bold">${stats.areaAverage}</span></h4>
                 </div>
 
                 <h3 className='area--title'>Commute Time</h3>
@@ -97,6 +97,7 @@ export default function AreaStat(props) {
                     {/* Placeholder Rating Icon e.g. A, B, C */}
                 </div>
                 <h3 className="area--title">Future rent estimate</h3>
+                <p>Work in Progress</p>
                 {/* May not implement rent estimate on MVP */}
                 {/* <div className='area--rent-estimate'></div>  */}
             </div>

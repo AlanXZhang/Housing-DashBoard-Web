@@ -5,12 +5,12 @@
     height: 72.5%;
     right: 0;
     overflow-x: hidden;
-    padding: 3%;
+    padding: 2rem;
     top: 50%;
     transform: translateY(-52.5%);
     background-color: #fff;
 
-    animation: slidein .25s normal forwards ease;
+    animation: slidein .1s normal forwards ease;
 }
 
 .area--overview {

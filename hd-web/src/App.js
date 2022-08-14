@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import "./App.css";
 import AreaStat from "./components/AreaStat";
 import listingData from './assets/data/final_df.csv'; // This needs to be replaced by a HTTP request
+// import listingData from './assets/data/proc_zillow.csv'; // This needs to be replaced by a HTTP request
 import Map from "./components/Map";
 import Listings from "./components/Listings"
 import SwapButton from "./components/SwapButton"
@@ -25,6 +26,7 @@ export default function App() {
             image: d.Images,
             description: d.Description,
             floorplan: d.floorplan,
+            from: d.from
         };
     };
 
@@ -36,20 +38,16 @@ export default function App() {
 
             // setCurrTab("listings");
 
-            areaStatRef.current.style.animation = "slideout .25s normal forwards ease";
-            console.log("uwu stats animation going away");
+            areaStatRef.current.style.animation = "slideout .1s normal forwards ease";
             setTimeout(() => {
-                console.log("uwu switching to listings");
                 setCurrTab("listings");
             }, 250);
         } else {
 
             // setCurrTab("stats");
 
-            listingsRef.current.style.animation = "slideout .25s normal forwards ease";
-            console.log("uwu listings animation going away");
+            listingsRef.current.style.animation = "slideout .1s normal forwards ease";
             setTimeout(() => {
-                console.log("uwu switching to stats");
                 setCurrTab("stats");
             }, 250);
         }
